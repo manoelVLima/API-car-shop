@@ -27,6 +27,7 @@ const carRes: ICar = {
 };
 
 describe('Testa a camada Service para a rota /cars', function () {
+  afterEach(sinon.restore);
   it('Testa se o metodo POST com a função de criar novos carros', async function () {
     sinon.stub(Model, 'create').resolves(carRes);
 
@@ -48,9 +49,20 @@ describe('Testa a camada Service para a rota /cars', function () {
   });
 
   it('Testa se o metodo GET com a função de buscar por Id, quando falha', async function () {
-    sinon.stub(Model, 'findById').resolves(null);
+    sinon.stub(Model, 'findOne').resolves(null);
 
-    const result = await new CarService().findById('gsfgdfg');
-    expect(result).to.be.deep.equal({ message: 'Car not found' });
+    try {
+      await new CarService().findById(id);
+    } catch (error) {
+      expect((error as Error).message).to.be.deep.equal('Car not found');
+    }
+  });
+
+  it('Testa se o metodo GET com a função de buscar por Id, com id invalido', async function () {
+    try {
+      await new CarService().findById('id');
+    } catch (error) {
+      expect((error as Error).message).to.be.deep.equal('Invalid mongo id');
+    }
   });
 });

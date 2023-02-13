@@ -1,3 +1,4 @@
+import { isValidObjectId } from 'mongoose';
 import Car from '../Domains/Car';
 import ICar from '../Interfaces/ICar';
 import CarModel from '../Models/CarModel';
@@ -24,7 +25,13 @@ export default class CarService {
   }
 
   public async findById(id: string) {
+    if (!isValidObjectId(id)) {
+      throw new Error('Invalid mongo id');
+    }
     const car = await this.model.findById(id);  
+
+    if (!car) throw new Error('Car not found');
+
     return this.createCarDomain(car);
   }
 }
