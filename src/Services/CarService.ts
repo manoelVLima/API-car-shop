@@ -12,7 +12,7 @@ export default class CarService {
   }
 
   public async create(car: ICar) {
-    const newCar = await this.model.create(car);    
+    const newCar = await this.model.create(car);      
     return this.createCarDomain(newCar);
   }
 
