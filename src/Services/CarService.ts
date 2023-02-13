@@ -34,4 +34,11 @@ export default class CarService {
 
     return this.createCarDomain(car);
   }
+
+  public async update(id:string, car:ICar) {
+    await this.findById(id);
+    await this.model.update(id, car);  
+
+    return this.createCarDomain({ id, ...car });
+  }
 }

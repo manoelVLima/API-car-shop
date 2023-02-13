@@ -1,5 +1,5 @@
-import { Model, Schema, model, models } from 'mongoose';
-import {} from 'mongodb';
+import { Model, Schema, model, models, UpdateQuery } from 'mongoose';
+import { ObjectId } from 'mongodb';
 
 export default abstract class AbstractModel<T> {
   protected schema: Schema;
@@ -22,5 +22,12 @@ export default abstract class AbstractModel<T> {
 
   public async findById(id: string): Promise<T | null> {
     return this.model.findById(id);
+  }
+
+  public async update(id:string, obj:UpdateQuery<T>) {
+    return this.model.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { ...obj } },
+    );
   }
 }
