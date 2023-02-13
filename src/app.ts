@@ -1,6 +1,10 @@
 import express from 'express';
+import CarRoutes from './Routes/CarRoutes';
 
 const app = express();
-console.log('teste');
+
+app.use(express.json());
+
+app.use('/cars', CarRoutes);
 
 export default app;
