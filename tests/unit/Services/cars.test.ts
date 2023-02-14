@@ -65,4 +65,12 @@ describe('Testa a camada Service para a rota /cars', function () {
       expect((error as Error).message).to.be.deep.equal('Invalid mongo id');
     }
   });
+
+  it('Testa se o metodo PUT com a função de atualizar um carro', async function () {
+    sinon.stub(Model, 'findById').resolves(carRes);
+    sinon.stub(Model, 'updateOne').resolves();
+
+    const result = await new CarService().update(id, carReq);
+    expect(result).to.be.deep.equal(carRes);
+  });
 });
