@@ -34,4 +34,11 @@ export default class MotorcycleService {
 
     return this.createMotorcycleDomain(motorcycle);
   }
+
+  public async update(id:string, motorcycle:IMotorcycle) {
+    await this.findById(id);
+    await this.model.update(id, motorcycle);  
+
+    return this.createMotorcycleDomain({ id, ...motorcycle });
+  }
 }
